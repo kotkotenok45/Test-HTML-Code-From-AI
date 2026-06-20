@@ -13,11 +13,11 @@
 </head>
 <body>
 <h1>Создай свой шрифт</h1>
-<p>Введите текст, который хотите увидеть в новом шрифте, и загрузите файл с шрифтом (woff/woff2).</p>
+<p>Введите текст, который хотите увидеть в новом шрифте, и загрузите файл с шрифтом (woff/woff2/ttf).</p>
 
 <textarea id="text" placeholder="Введите текст…"></textarea>
 <br>
-<input type="file" id="fontFile" accept=".woff,.woff2">
+<input type="file" id="fontFile" accept=".woff,.woff2,.ttf">
 <br>
 <button id="apply">Показать</button>
 
@@ -31,11 +31,13 @@ document.getElementById('apply').onclick = async () => {
   const reader = new FileReader();
   reader.onload = () => {
     const fontName = 'CustomFont';
+    const format = file.name.endsWith('.ttf') ? 'truetype' :
+                   file.name.endsWith('.woff2') ? 'woff2' : 'woff';
     const style = document.createElement('style');
     style.textContent = `
       @font-face {
         font-family: '${fontName}';
-        src: url('${reader.result}') format('woff2');
+        src: url('${reader.result}') format('${format}');
       }
       #preview {
         font-family: '${fontName}', sans-serif;
